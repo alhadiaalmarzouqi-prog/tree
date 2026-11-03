@@ -1,0 +1,26 @@
+# Consolidated Owner-Decision Register, Part 1B: DD-21 to DD-40
+
+**Parent:** `OWNER-DECISION-REGISTER-CONSOLIDATED.md`. **Provenance of every row:** `DIRECTIVE-2026-11-03` unless marked otherwise.
+
+| ID | Decision | Consistency note |
+|---|---|---|
+| DD-21 | RLS designed from the initial build with application authorization. Tests: network isolation, cross-network and cross-user access, direct DB access, table owner, BYPASSRLS, FORCE RLS, pooling, background and admin jobs, audit-value visibility, sensitive fields. | Q9, P12 |
+| DD-22 | Role-based, least-privilege audit access. Sensitive before/after values hidden from ordinary users and staff who do not need them. No one modifies audit history through ordinary workflows. | H-07; §17.4 |
+| DD-23 | Standard maintained cryptography only. Field encryption at rest; separate HMAC exact lookup; key management and rotation; encrypted backups; documented recovery; retention and deletion assessed legally; incident response documented. | P13, Q10A |
+| DD-24 | Participation, account status, and life status are separate. Leaving a network deletes nothing; rejoining requires network approval and restores the same Person. Visual states: green = living active participant; blue = living, not participating or unregistered; white = deceased. | R-06, R-14 |
+| DD-25 | Account deletion and Person deletion are separate processes. Account deletion removes data required by law; shared lineage retained only with a legal basis; relationships not deleted by account deletion; neutral former-contributor label. Person deletion requests assessed against legal duties. | **Legal review required** (register Part 3) |
+| DD-26 | Social features in scope. Posts optionally linked to a Person, branch, or event; comments and reactions are social, not truth evidence; documents for viewing and discussion, not authenticated; subgroups (members create, creators appoint managers, invitation or request approval, separate from lineage governance); invitations never create accounts, Person links, or confirmed relationships; re-sharing keeps original scope and expiry; favorites are personal; suggestions never confirm or merge; targeted notifications with configurable limits; dashboard; geographic spread and migration history never prove kinship; occupations with period and source; one official name per Person, no aliases; text search with partial and omitted components; corrections with explanation; imports and exports with preview, validation, duplicate detection, and no automatic confirmation; personal backups restore only permitted data; support center with restricted staff access. | R-13, Q20, Q23 |
+| DD-27 | Session security: phone login; no mandatory 2FA in current scope; device and session list; login history; approximate location only where appropriate; new-device notifications; terminate one or all other sessions. | R-08, R-09 |
+| DD-28 | Blocking, abuse reporting, temporary restrictions, impersonation reports, temporary privilege freezes on strong indicators, independent review, appeal by restricted holders, reasons without reporter identity. Blocking and restriction never delete Person records or relationships. | R-10 |
+| DD-29 | Multi-country support from the beginning: phone formats, time zones, Arabic and English, naming conventions, regional differences. No hierarchical community layer. | R-11, R-12 |
+| DD-30 | Kinship path display: useful paths first; further paths on request; no silent omission; technical pagination or budgets clearly communicated as incomplete; display limits are not data limits. | R-04, R-05 |
+| DD-31 | Shared-relative discovery is an essential capability. | R-01 |
+| DD-32 | Critical notifications (security, account integrity, privacy, safety, relationship governance) are never silently dropped by daily limits; pending items preserved and escalated. | M-02; §17.7 |
+| DD-33 | A correction takes effect atomically when the authorized approval commits; current state and audit update in one transaction; original value and history preserved. | C-R21-06; §17.6 |
+| DD-34 | Sensitive changes to accountless Persons follow a proposal and review workflow with network governance, conflict-of-interest control, and additional review. Absence of an Account does not make the record freely editable. | H-04; §17.5 |
+| DD-35 | Audit readers are role-based and least privilege; privileged audit access is itself logged. | H-07; §17.4 |
+| DD-36 | One active Account per Person; multiple historical Accounts. An Account managing several Persons is NOT assumed; it is designed as an explicit, constrained association. | H-02; §17.3 |
+| DD-37 | Path visibility (that a relationship path exists and which connecting Person links it) is separate from sensitive-field visibility. | OQ-21-03 |
+| DD-38 | Search never changes official names or merges records; similarity is a discovery aid only. | §14.11 |
+| DD-39 | Privacy, security, and retention decisions require documented legal and privacy assessment before production. No legal conclusion is made in this documentation. | External dependency |
+| DD-40 | Implementation sequencing is foundation-first: identity, relationship and governance lifecycle, M0 correctness, audit and RLS, privacy and account lifecycle; social features in later staged releases. | `IMPLEMENTATION-ROADMAP.md` |

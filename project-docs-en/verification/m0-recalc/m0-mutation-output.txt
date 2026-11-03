@@ -1,0 +1,8 @@
+﻿DETECTED R off by one (T08): R expected 3 got 2
+DETECTED removed valid pair (ST-01): 1 produced valid pair(s) not in fixture
+DETECTED wrong a-distance (T03): F a expected 9 got 1
+DETECTED wrong cousin degree (T08): Gf cousin_degree expected 2 derived 1
+DETECTED wrong removal (T09): G removal expected 0 derived 1
+DETECTED wrong J (T12): J expected ['Gf'] got ['Gf', 'Gm']
+DETECTED wrong role sequence (T02): 1 expected valid pair(s) not produced
+MUTATIONS_DETECTED 7/7

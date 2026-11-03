@@ -1,0 +1,819 @@
+{
+  "schema_version": "0.1",
+  "description": "Internal mathematical reference fixtures for the biological kinship engine. Test data only. Not application code. Not approved owner decisions. Derived from KINSHIP-MATHEMATICAL-REFERENCE.md (M0 baseline).",
+  "conventions": {
+    "people": "Each person has id, father_id, mother_id. null = unrecorded parent in this closed fixture.",
+    "path": "nodes = ordered ids from the queried person to the ancestor. roles = parent role of each edge in order. length = number of edges. Identity path has length 0.",
+    "valid_path_pair": "Two paths from person_a and person_b to the same ancestor whose vertex sets intersect in exactly that ancestor.",
+    "valid_junction_ancestors": "J: ancestors with at least one valid path pair.",
+    "valid_path_pair_count": "R: number of valid path pairs. Not a count of independent human relationships.",
+    "ab": "a = length(path_a), b = length(path_b), L = a + b.",
+    "structural_classification": "Conservative structural label only. Terminology is pending (DR-16, KD-01, KD-02)."
+  },
+  "cases": [
+    {
+      "case_id": "T01",
+      "description": "Direct parent",
+      "query": { "person_a": "A", "person_b": "P" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": null },
+        { "id": "P", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["P"],
+        "valid_junction_ancestors": ["P"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "P",
+            "path_a": { "nodes": ["A", "P"], "roles": ["FATHER"], "length": 1 },
+            "path_b": { "nodes": ["P"], "roles": [], "length": 0 },
+            "a": 1, "b": 0, "L": 1,
+            "structural_classification": "direct_line",
+            "generation_distance": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T02",
+      "description": "Direct grandparent",
+      "query": { "person_a": "A", "person_b": "G" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": null },
+        { "id": "P", "father_id": "G", "mother_id": null },
+        { "id": "G", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G"],
+        "valid_junction_ancestors": ["G"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "P", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["G"], "roles": [], "length": 0 },
+            "a": 2, "b": 0, "L": 2,
+            "structural_classification": "direct_line",
+            "generation_distance": 2
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T03",
+      "description": "Full siblings",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "B", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": null, "mother_id": null },
+        { "id": "M", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["F", "M"],
+        "valid_junction_ancestors": ["F", "M"],
+        "valid_path_pair_count": 2,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "F",
+            "path_a": { "nodes": ["A", "F"], "roles": ["FATHER"], "length": 1 },
+            "path_b": { "nodes": ["B", "F"], "roles": ["FATHER"], "length": 1 },
+            "a": 1, "b": 1, "L": 2,
+            "structural_classification": "sibling",
+            "sibling_type": "full"
+          },
+          {
+            "ancestor_id": "M",
+            "path_a": { "nodes": ["A", "M"], "roles": ["MOTHER"], "length": 1 },
+            "path_b": { "nodes": ["B", "M"], "roles": ["MOTHER"], "length": 1 },
+            "a": 1, "b": 1, "L": 2,
+            "structural_classification": "sibling",
+            "sibling_type": "full"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T04",
+      "description": "Paternal half-siblings",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M1" },
+        { "id": "B", "father_id": "F", "mother_id": "M2" },
+        { "id": "F", "father_id": null, "mother_id": null },
+        { "id": "M1", "father_id": null, "mother_id": null },
+        { "id": "M2", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["F"],
+        "valid_junction_ancestors": ["F"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "F",
+            "path_a": { "nodes": ["A", "F"], "roles": ["FATHER"], "length": 1 },
+            "path_b": { "nodes": ["B", "F"], "roles": ["FATHER"], "length": 1 },
+            "a": 1, "b": 1, "L": 2,
+            "structural_classification": "sibling",
+            "sibling_type": "paternal_half"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T05",
+      "description": "Maternal half-siblings",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F1", "mother_id": "M" },
+        { "id": "B", "father_id": "F2", "mother_id": "M" },
+        { "id": "F1", "father_id": null, "mother_id": null },
+        { "id": "F2", "father_id": null, "mother_id": null },
+        { "id": "M", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["M"],
+        "valid_junction_ancestors": ["M"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "M",
+            "path_a": { "nodes": ["A", "M"], "roles": ["MOTHER"], "length": 1 },
+            "path_b": { "nodes": ["B", "M"], "roles": ["MOTHER"], "length": 1 },
+            "a": 1, "b": 1, "L": 2,
+            "structural_classification": "sibling",
+            "sibling_type": "maternal_half"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T06",
+      "description": "Paternal avuncular (A is nephew of U via shared father G)",
+      "query": { "person_a": "A", "person_b": "U" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": "Am" },
+        { "id": "P", "father_id": "G", "mother_id": "Pm" },
+        { "id": "U", "father_id": "G", "mother_id": "Um" },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "Pm", "father_id": null, "mother_id": null },
+        { "id": "Um", "father_id": null, "mother_id": null },
+        { "id": "Am", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G"],
+        "valid_junction_ancestors": ["G"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "P", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["U", "G"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular",
+            "lineage_side_on_shared_ancestor_path": "paternal_line_of_A_via_P"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T07",
+      "description": "Maternal avuncular (A is nephew of U via shared mother G)",
+      "query": { "person_a": "A", "person_b": "U" },
+      "people": [
+        { "id": "A", "father_id": "Af", "mother_id": "P" },
+        { "id": "P", "father_id": "Pf", "mother_id": "G" },
+        { "id": "U", "father_id": "Uf", "mother_id": "G" },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "Pf", "father_id": null, "mother_id": null },
+        { "id": "Uf", "father_id": null, "mother_id": null },
+        { "id": "Af", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G"],
+        "valid_junction_ancestors": ["G"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "P", "G"], "roles": ["MOTHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["U", "G"], "roles": ["MOTHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular",
+            "lineage_side_on_shared_ancestor_path": "maternal_line_of_A_via_P"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T08",
+      "description": "First cousins: P and Q are full siblings and children of Gf and Gm",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": "Am" },
+        { "id": "B", "father_id": "Q", "mother_id": "Bm" },
+        { "id": "P", "father_id": "Gf", "mother_id": "Gm" },
+        { "id": "Q", "father_id": "Gf", "mother_id": "Gm" },
+        { "id": "Gf", "father_id": null, "mother_id": null },
+        { "id": "Gm", "father_id": null, "mother_id": null },
+        { "id": "Am", "father_id": null, "mother_id": null },
+        { "id": "Bm", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["Gf", "Gm"],
+        "valid_junction_ancestors": ["Gf", "Gm"],
+        "valid_path_pair_count": 2,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "Gf",
+            "path_a": { "nodes": ["A", "P", "Gf"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "Q", "Gf"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin",
+            "cousin_degree": 1, "removal": 0
+          },
+          {
+            "ancestor_id": "Gm",
+            "path_a": { "nodes": ["A", "P", "Gm"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "Q", "Gm"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin",
+            "cousin_degree": 1, "removal": 0
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T09",
+      "description": "First cousins once removed. P and R are paternal half-siblings sharing only father G.",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": "Am" },
+        { "id": "P", "father_id": "G", "mother_id": "Pm" },
+        { "id": "R", "father_id": "G", "mother_id": "Rm" },
+        { "id": "Q", "father_id": "R", "mother_id": "Qm" },
+        { "id": "B", "father_id": "Q", "mother_id": "Bm" },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "Pm", "father_id": null, "mother_id": null },
+        { "id": "Rm", "father_id": null, "mother_id": null },
+        { "id": "Qm", "father_id": null, "mother_id": null },
+        { "id": "Bm", "father_id": null, "mother_id": null },
+        { "id": "Am", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G"],
+        "valid_junction_ancestors": ["G"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "P", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "Q", "R", "G"], "roles": ["FATHER", "FATHER", "FATHER"], "length": 3 },
+            "a": 2, "b": 3, "L": 5,
+            "structural_classification": "cousin",
+            "cousin_degree": 1, "removal": 1,
+            "shared_ancestor_lines": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T10",
+      "description": "Second cousins. GP and GQ are paternal half-siblings sharing only father G.",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": "Am" },
+        { "id": "P", "father_id": "GP", "mother_id": "Pm" },
+        { "id": "GP", "father_id": "G", "mother_id": "GPm" },
+        { "id": "GQ", "father_id": "G", "mother_id": "GQm" },
+        { "id": "Q", "father_id": "GQ", "mother_id": "Qm" },
+        { "id": "B", "father_id": "Q", "mother_id": "Bm" },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "Pm", "father_id": null, "mother_id": null },
+        { "id": "GPm", "father_id": null, "mother_id": null },
+        { "id": "GQm", "father_id": null, "mother_id": null },
+        { "id": "Qm", "father_id": null, "mother_id": null },
+        { "id": "Bm", "father_id": null, "mother_id": null },
+        { "id": "Am", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G"],
+        "valid_junction_ancestors": ["G"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "P", "GP", "G"], "roles": ["FATHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "Q", "GQ", "G"], "roles": ["FATHER", "FATHER", "FATHER"], "length": 3 },
+            "a": 3, "b": 3, "L": 6,
+            "structural_classification": "cousin",
+            "cousin_degree": 2, "removal": 0,
+            "shared_ancestor_lines": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T11",
+      "description": "Double first cousins: parents F and P share grandparents G1 and G2; parents M and Q share H1 and H2",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "B", "father_id": "P", "mother_id": "Q" },
+        { "id": "F", "father_id": "G1", "mother_id": "G2" },
+        { "id": "P", "father_id": "G1", "mother_id": "G2" },
+        { "id": "M", "father_id": "H1", "mother_id": "H2" },
+        { "id": "Q", "father_id": "H1", "mother_id": "H2" },
+        { "id": "G1", "father_id": null, "mother_id": null },
+        { "id": "G2", "father_id": null, "mother_id": null },
+        { "id": "H1", "father_id": null, "mother_id": null },
+        { "id": "H2", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G1", "G2", "H1", "H2"],
+        "valid_junction_ancestors": ["G1", "G2", "H1", "H2"],
+        "valid_path_pair_count": 4,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G1",
+            "path_a": { "nodes": ["A", "F", "G1"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "P", "G1"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 0
+          },
+          {
+            "ancestor_id": "G2",
+            "path_a": { "nodes": ["A", "F", "G2"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "P", "G2"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 0
+          },
+          {
+            "ancestor_id": "H1",
+            "path_a": { "nodes": ["A", "M", "H1"], "roles": ["MOTHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "Q", "H1"], "roles": ["MOTHER", "FATHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 0
+          },
+          {
+            "ancestor_id": "H2",
+            "path_a": { "nodes": ["A", "M", "H2"], "roles": ["MOTHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "Q", "H2"], "roles": ["MOTHER", "MOTHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 0
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T12",
+      "description": "Pedigree collapse: parents F and M are first cousins through grandparents Gf and Gm; R is a full sibling of P and Q; B is R's child",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "B", "father_id": "R", "mother_id": null },
+        { "id": "F", "father_id": "P", "mother_id": null },
+        { "id": "M", "father_id": "Q", "mother_id": null },
+        { "id": "P", "father_id": "Gf", "mother_id": "Gm" },
+        { "id": "Q", "father_id": "Gf", "mother_id": "Gm" },
+        { "id": "R", "father_id": "Gf", "mother_id": "Gm" },
+        { "id": "Gf", "father_id": null, "mother_id": null },
+        { "id": "Gm", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["Gf", "Gm"],
+        "valid_junction_ancestors": ["Gf", "Gm"],
+        "valid_path_pair_count": 4,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "Gf",
+            "path_a": { "nodes": ["A", "F", "P", "Gf"], "roles": ["FATHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "R", "Gf"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          },
+          {
+            "ancestor_id": "Gf",
+            "path_a": { "nodes": ["A", "M", "Q", "Gf"], "roles": ["MOTHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "R", "Gf"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          },
+          {
+            "ancestor_id": "Gm",
+            "path_a": { "nodes": ["A", "F", "P", "Gm"], "roles": ["FATHER", "FATHER", "MOTHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "R", "Gm"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          },
+          {
+            "ancestor_id": "Gm",
+            "path_a": { "nodes": ["A", "M", "Q", "Gm"], "roles": ["MOTHER", "FATHER", "MOTHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "R", "Gm"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "T13",
+      "description": "Shared father D; A and B are paternal half-siblings. Gf and Gm are parents of D (ancestry only). Overlapping pairs at Gf and Gm are excluded; the pair at D is valid.",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "D", "mother_id": "X" },
+        { "id": "B", "father_id": "D", "mother_id": "Y" },
+        { "id": "D", "father_id": "Gf", "mother_id": "Gm" },
+        { "id": "X", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "Gf", "father_id": null, "mother_id": null },
+        { "id": "Gm", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["D", "Gf", "Gm"],
+        "valid_junction_ancestors": ["D"],
+        "valid_path_pair_count": 1,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "D",
+            "path_a": { "nodes": ["A", "D"], "roles": ["FATHER"], "length": 1 },
+            "path_b": { "nodes": ["B", "D"], "roles": ["FATHER"], "length": 1 },
+            "a": 1, "b": 1, "L": 2,
+            "structural_classification": "sibling",
+            "sibling_type": "paternal_half"
+          }
+        ],
+        "excluded_candidate_pairs": [
+          { "ancestor_id": "Gf", "reason": "path_a and path_b share vertex D, which is not Gf" },
+          { "ancestor_id": "Gm", "reason": "path_a and path_b share vertex D, which is not Gm" }
+        ]
+      }
+    },
+    {
+      "case_id": "T14",
+      "description": "No recorded common ancestor",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "P", "mother_id": null },
+        { "id": "B", "father_id": "Q", "mother_id": null },
+        { "id": "P", "father_id": null, "mother_id": null },
+        { "id": "Q", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": [],
+        "valid_junction_ancestors": [],
+        "valid_path_pair_count": 0,
+        "valid_path_pairs": [],
+        "interpretation": "No recorded biological relationship in the searched closed graph. This does NOT assert absence of relationship in reality."
+      }
+    },
+    {
+      "case_id": "DI-05a",
+      "description": "Valid pedigree overlap (not a cycle). A's parents F and Mo are both children of G. Query A with G. Two direct-line path pairs.",
+      "query": { "person_a": "A", "person_b": "G" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "Mo" },
+        { "id": "F", "father_id": "G", "mother_id": "H" },
+        { "id": "Mo", "father_id": "G", "mother_id": "L" },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "H", "father_id": null, "mother_id": null },
+        { "id": "L", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G"],
+        "valid_junction_ancestors": ["G"],
+        "valid_path_pair_count": 2,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "F", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["G"], "roles": [], "length": 0 },
+            "a": 2, "b": 0, "L": 2,
+            "structural_classification": "direct_line",
+            "generation_distance": 2
+          },
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "Mo", "G"], "roles": ["MOTHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["G"], "roles": [], "length": 0 },
+            "a": 2, "b": 0, "L": 2,
+            "structural_classification": "direct_line",
+            "generation_distance": 2
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "DI-05b",
+      "description": "Valid pedigree overlap (not a cycle). A and B are paternal half-siblings (shared father F, different mothers Mo and Z).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "Mo" },
+        { "id": "B", "father_id": "F", "mother_id": "Z" },
+        { "id": "F", "father_id": "G", "mother_id": "H" },
+        { "id": "Mo", "father_id": "G", "mother_id": "L" },
+        { "id": "Z", "father_id": null, "mother_id": null },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "H", "father_id": null, "mother_id": null },
+        { "id": "L", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["F", "G", "H"],
+        "valid_junction_ancestors": ["F", "G"],
+        "valid_path_pair_count": 2,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "F",
+            "path_a": { "nodes": ["A", "F"], "roles": ["FATHER"], "length": 1 },
+            "path_b": { "nodes": ["B", "F"], "roles": ["FATHER"], "length": 1 },
+            "a": 1, "b": 1, "L": 2,
+            "structural_classification": "sibling",
+            "sibling_type": "paternal_half"
+          },
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "Mo", "G"], "roles": ["MOTHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "F", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 2, "b": 2, "L": 4,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 0
+          }
+        ],
+        "excluded_candidate_pairs": [
+          { "ancestor_id": "G", "excluded_pair": "A-F-G with B-F-G", "reason": "This excluded pair at G shares vertex F, which is not G. The valid pair at G (A-Mo-G with B-F-G) is retained and included in valid_path_pairs." },
+          { "ancestor_id": "H", "reason": "A's only path to H goes through F, which is also on B's path to H. Excluded." }
+        ]
+      }
+    },
+    {
+      "case_id": "ST-01",
+      "description": "S and T are full siblings (shared G and H). F and B share only father S (B's mother X2 differs from F's mother X1).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": "S", "mother_id": "X1" },
+        { "id": "B", "father_id": "S", "mother_id": "X2" },
+        { "id": "M", "father_id": "T", "mother_id": "Y" },
+        { "id": "S", "father_id": "G", "mother_id": "H" },
+        { "id": "T", "father_id": "G", "mother_id": "H" },
+        { "id": "X1", "father_id": null, "mother_id": null },
+        { "id": "X2", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "H", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G", "H", "S"],
+        "valid_junction_ancestors": ["G", "H", "S"],
+        "valid_path_pair_count": 3,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "S",
+            "path_a": { "nodes": ["A", "F", "S"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "S"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "M", "T", "G"], "roles": ["MOTHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          },
+          {
+            "ancestor_id": "H",
+            "path_a": { "nodes": ["A", "M", "T", "H"], "roles": ["MOTHER", "FATHER", "MOTHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "H"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "ST-02",
+      "description": "S and T are full siblings (shared G and H). F and B are full siblings (shared father S and mother X).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": "S", "mother_id": "X" },
+        { "id": "B", "father_id": "S", "mother_id": "X" },
+        { "id": "M", "father_id": "T", "mother_id": "Y" },
+        { "id": "S", "father_id": "G", "mother_id": "H" },
+        { "id": "T", "father_id": "G", "mother_id": "H" },
+        { "id": "X", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "H", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G", "H", "S", "X"],
+        "valid_junction_ancestors": ["G", "H", "S", "X"],
+        "valid_path_pair_count": 4,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "S",
+            "path_a": { "nodes": ["A", "F", "S"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "S"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "X",
+            "path_a": { "nodes": ["A", "F", "X"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "X"], "roles": ["MOTHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "M", "T", "G"], "roles": ["MOTHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          },
+          {
+            "ancestor_id": "H",
+            "path_a": { "nodes": ["A", "M", "T", "H"], "roles": ["MOTHER", "FATHER", "MOTHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "H"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "ST-03",
+      "description": "S and T are paternal half-siblings (shared father G only). F and B are paternal half-siblings (shared father S only).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": "S", "mother_id": "X1" },
+        { "id": "B", "father_id": "S", "mother_id": "X2" },
+        { "id": "M", "father_id": "T", "mother_id": "Y" },
+        { "id": "S", "father_id": "G", "mother_id": "H1" },
+        { "id": "T", "father_id": "G", "mother_id": "H2" },
+        { "id": "X1", "father_id": null, "mother_id": null },
+        { "id": "X2", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "H1", "father_id": null, "mother_id": null },
+        { "id": "H2", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G", "H1", "S"],
+        "valid_junction_ancestors": ["G", "S"],
+        "valid_path_pair_count": 2,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "S",
+            "path_a": { "nodes": ["A", "F", "S"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "S"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "M", "T", "G"], "roles": ["MOTHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "ST-04",
+      "description": "S and T are paternal half-siblings (shared father G only). F and B are full siblings (shared father S and mother X).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": "S", "mother_id": "X" },
+        { "id": "B", "father_id": "S", "mother_id": "X" },
+        { "id": "M", "father_id": "T", "mother_id": "Y" },
+        { "id": "S", "father_id": "G", "mother_id": "H1" },
+        { "id": "T", "father_id": "G", "mother_id": "H2" },
+        { "id": "X", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "G", "father_id": null, "mother_id": null },
+        { "id": "H1", "father_id": null, "mother_id": null },
+        { "id": "H2", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G", "H1", "S", "X"],
+        "valid_junction_ancestors": ["G", "S", "X"],
+        "valid_path_pair_count": 3,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "S",
+            "path_a": { "nodes": ["A", "F", "S"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "S"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "X",
+            "path_a": { "nodes": ["A", "F", "X"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "X"], "roles": ["MOTHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "G",
+            "path_a": { "nodes": ["A", "M", "T", "G"], "roles": ["MOTHER", "FATHER", "FATHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "G"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "ST-05",
+      "description": "S and T are maternal half-siblings (shared mother H only). F and B are paternal half-siblings (shared father S only).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": "S", "mother_id": "X1" },
+        { "id": "B", "father_id": "S", "mother_id": "X2" },
+        { "id": "M", "father_id": "T", "mother_id": "Y" },
+        { "id": "S", "father_id": "G1", "mother_id": "H" },
+        { "id": "T", "father_id": "G2", "mother_id": "H" },
+        { "id": "X1", "father_id": null, "mother_id": null },
+        { "id": "X2", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "G1", "father_id": null, "mother_id": null },
+        { "id": "G2", "father_id": null, "mother_id": null },
+        { "id": "H", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G1", "H", "S"],
+        "valid_junction_ancestors": ["H", "S"],
+        "valid_path_pair_count": 2,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "S",
+            "path_a": { "nodes": ["A", "F", "S"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "S"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "H",
+            "path_a": { "nodes": ["A", "M", "T", "H"], "roles": ["MOTHER", "FATHER", "MOTHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "H"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "ST-06",
+      "description": "S and T are maternal half-siblings (shared mother H only). F and B are full siblings (shared father S and mother X).",
+      "query": { "person_a": "A", "person_b": "B" },
+      "people": [
+        { "id": "A", "father_id": "F", "mother_id": "M" },
+        { "id": "F", "father_id": "S", "mother_id": "X" },
+        { "id": "B", "father_id": "S", "mother_id": "X" },
+        { "id": "M", "father_id": "T", "mother_id": "Y" },
+        { "id": "S", "father_id": "G1", "mother_id": "H" },
+        { "id": "T", "father_id": "G2", "mother_id": "H" },
+        { "id": "X", "father_id": null, "mother_id": null },
+        { "id": "Y", "father_id": null, "mother_id": null },
+        { "id": "G1", "father_id": null, "mother_id": null },
+        { "id": "G2", "father_id": null, "mother_id": null },
+        { "id": "H", "father_id": null, "mother_id": null }
+      ],
+      "expected": {
+        "common_ancestors": ["G1", "H", "S", "X"],
+        "valid_junction_ancestors": ["H", "S", "X"],
+        "valid_path_pair_count": 3,
+        "valid_path_pairs": [
+          {
+            "ancestor_id": "S",
+            "path_a": { "nodes": ["A", "F", "S"], "roles": ["FATHER", "FATHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "S"], "roles": ["FATHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "X",
+            "path_a": { "nodes": ["A", "F", "X"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "path_b": { "nodes": ["B", "X"], "roles": ["MOTHER"], "length": 1 },
+            "a": 2, "b": 1, "L": 3,
+            "structural_classification": "avuncular"
+          },
+          {
+            "ancestor_id": "H",
+            "path_a": { "nodes": ["A", "M", "T", "H"], "roles": ["MOTHER", "FATHER", "MOTHER"], "length": 3 },
+            "path_b": { "nodes": ["B", "S", "H"], "roles": ["FATHER", "MOTHER"], "length": 2 },
+            "a": 3, "b": 2, "L": 5,
+            "structural_classification": "cousin", "cousin_degree": 1, "removal": 1
+          }
+        ]
+      }
+    }
+  ]
+}

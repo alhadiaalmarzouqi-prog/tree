@@ -1,0 +1,39 @@
+== 1. Source files unchanged ==
+PASS CLAUDE.md
+PASS project-docs\MASTER-ARCHITECTURE.md
+PASS project-docs\analysis\ANALYSIS-REPORT.md
+PASS project-docs\analysis\CONFLICTS-AND-GAPS.md
+PASS project-docs\analysis\DECISION-REGISTER.md
+PASS project-docs\analysis\DECISIONS-REQUIRED.md
+PASS project-docs\analysis\KINSHIP-MATHEMATICAL-REFERENCE.md
+PASS project-docs\analysis\REQUIREMENTS.md
+PASS project-docs\analysis\TRACEABILITY-MATRIX.md
+PASS project-docs\handoffs\NEXT-AGENT.md
+PASS project-docs\reference-fixtures\kinship-reference-cases.json
+PASS project-docs\standards\AGENT-EXECUTION-RULES.md
+PASS project-docs\standards\CODE-ORGANIZATION-RULES.md
+PASS project-docs\standards\DOCUMENTATION-STANDARDS.md
+== 2. Protected fixture ==
+PASS 22 cases; expected set present
+PASS per-case pair-count check
+== 3. Requirement identifiers preserved ==
+source count=114 english count=114 missing=[] extra=[]
+== 4. English cross-references resolve ==
+PASS 03-REQUIREMENTS.md refs=3 dangling=[]
+PASS 04-TRACEABILITY-MATRIX.md refs=3 dangling=[]
+PASS 05-CONFLICTS-AND-GAPS.md refs=3 dangling=[]
+PASS 06-DECISIONS-REQUIRED.md refs=3 dangling=[]
+PASS 07-DECISION-EVIDENCE-REGISTER.md refs=2 dangling=[]
+PASS 08-MATHEMATICAL-REFERENCE.md refs=2 dangling=[]
+PASS 09-MASTER-ARCHITECTURE.md refs=4 dangling=[]
+PASS 10-ANALYSIS-REPORT.md refs=4 dangling=[]
+PASS 11-NEXT-AGENT.md refs=2 dangling=[]
+PASS 12-STANDARDS.md refs=1 dangling=[]
+PASS 13-SOURCE-TO-ENGLISH-TRACEABILITY.md refs=10 dangling=[]
+PASS 14-CORRECTED-DOCUMENTATION-DEFECTS.md refs=2 dangling=[]
+PASS 15-UNRESOLVED-CONTRADICTIONS.md refs=4 dangling=[]
+== 5. Decision identifiers are from source ==
+DR in english = 34 ; extra vs DECISIONS-REQUIRED source = none
+== 6. OPEN identifiers tracked (1..21) ==
+OPEN ids seen = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+== RESULT: PASS ; failures=[]

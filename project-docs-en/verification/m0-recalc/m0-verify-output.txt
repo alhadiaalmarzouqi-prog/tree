@@ -1,0 +1,36 @@
+﻿FIXTURE_PATH C:\Users\test\Desktop\╪┤╪¼╪▒╪⌐ ╪º┘ä╪╣╪º╪ª┘ä╪⌐\project-docs\reference-fixtures\kinship-reference-cases.json
+FIXTURE_BYTES 37807 (Phase A recorded 37807)
+FIXTURE_SHA256 FF52DF522E07ADFC59EB84F78A5B27D007CF636D67228898DFFEA03E07243A46
+FIXTURE_SHA256_MATCHES_PHASE_A True
+CASE_COUNT 22 UNIQUE_IDS 22 EXPECTED_SET_MATCH True
+CASE T01     PASS checks=10 max_paths_per_ancestor=1
+CASE T02     PASS checks=10 max_paths_per_ancestor=1
+CASE T03     PASS checks=13 max_paths_per_ancestor=1
+CASE T04     PASS checks=9 max_paths_per_ancestor=1
+CASE T05     PASS checks=9 max_paths_per_ancestor=1
+CASE T06     PASS checks=9 max_paths_per_ancestor=1
+CASE T07     PASS checks=9 max_paths_per_ancestor=1
+CASE T08     PASS checks=17 max_paths_per_ancestor=1
+CASE T09     PASS checks=11 max_paths_per_ancestor=1
+CASE T10     PASS checks=11 max_paths_per_ancestor=1
+CASE T11     PASS checks=29 max_paths_per_ancestor=1
+CASE T12     PASS checks=29 max_paths_per_ancestor=2
+CASE T13     PASS checks=11 max_paths_per_ancestor=1
+CASE T14     PASS checks=5 max_paths_per_ancestor=1
+CASE DI-05a  PASS checks=15 max_paths_per_ancestor=2
+CASE DI-05b  PASS checks=17 max_paths_per_ancestor=2
+CASE ST-01   PASS checks=21 max_paths_per_ancestor=2
+CASE ST-02   PASS checks=25 max_paths_per_ancestor=2
+CASE ST-03   PASS checks=15 max_paths_per_ancestor=2
+CASE ST-04   PASS checks=19 max_paths_per_ancestor=2
+CASE ST-05   PASS checks=15 max_paths_per_ancestor=2
+CASE ST-06   PASS checks=19 max_paths_per_ancestor=2
+TOTAL_CHECKS 328
+CASES_WITH_MULTIPLE_PATHS_TO_ONE_ANCESTOR 9/22
+SELF_TESTS:
+  PASS two-node father cycle is rejected (biological cycle: Y -> X)
+  PASS self-parent cycle is rejected (biological cycle: X -> X)
+  PASS duplicate person id is rejected (duplicate person id X)
+  PASS unknown parent reference is rejected (X references unknown FATHER NOPE)
+NOT_VERIFIED_M0_FIELDS_PRESENT ['lineage_side_on_shared_ancestor_path', 'shared_ancestor_lines', 'sibling_type'] (not defined by M0; excluded from pass/fail)
+SUMMARY: 22/22 cases pass all M0 checks; self-tests pass

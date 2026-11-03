@@ -1,0 +1,44 @@
+== LINE COUNT AUDIT (physical lines) ==
+CLAUDE.md bytes=3068 physical_lines=39
+project-docs\MASTER-ARCHITECTURE.md bytes=54332 physical_lines=470
+project-docs\analysis\ANALYSIS-REPORT.md bytes=5181 physical_lines=62
+project-docs\analysis\CONFLICTS-AND-GAPS.md bytes=19821 physical_lines=272
+project-docs\analysis\DECISION-REGISTER.md bytes=14235 physical_lines=123
+project-docs\analysis\DECISIONS-REQUIRED.md bytes=17398 physical_lines=186
+project-docs\analysis\KINSHIP-MATHEMATICAL-REFERENCE.md bytes=18147 physical_lines=216
+project-docs\analysis\REQUIREMENTS.md bytes=17755 physical_lines=202
+project-docs\analysis\TRACEABILITY-MATRIX.md bytes=17834 physical_lines=183
+project-docs\handoffs\NEXT-AGENT.md bytes=4063 physical_lines=42
+project-docs\reference-fixtures\kinship-reference-cases.json bytes=37807 physical_lines=819
+project-docs\standards\AGENT-EXECUTION-RULES.md bytes=2868 physical_lines=39
+project-docs\standards\CODE-ORGANIZATION-RULES.md bytes=3528 physical_lines=39
+project-docs\standards\DOCUMENTATION-STANDARDS.md bytes=3423 physical_lines=35
+
+== OWNER / EVIDENCE TERM SEARCH (all source files) ==
+M1-E: count=38 sample=['project-docs\\MASTER-ARCHITECTURE.md:11', 'project-docs\\MASTER-ARCHITECTURE.md:33', 'project-docs\\MASTER-ARCHITECTURE.md:34', 'project-docs\\MASTER-ARCHITECTURE.md:38', 'project-docs\\MASTER-ARCHITECTURE.md:42', 'project-docs\\MASTER-ARCHITECTURE.md:43']
+M1-A: count=1 sample=['project-docs\\MASTER-ARCHITECTURE.md:455']
+M1-B: count=1 sample=['project-docs\\MASTER-ARCHITECTURE.md:178']
+D-01..D-10 identifier: count=0 sample=[]
+PD identifier: count=0 sample=[]
+NG identifier: count=0 sample=[]
+KD identifier: count=13 sample=['project-docs\\MASTER-ARCHITECTURE.md:217', 'project-docs\\MASTER-ARCHITECTURE.md:218', 'project-docs\\MASTER-ARCHITECTURE.md:390', 'project-docs\\MASTER-ARCHITECTURE.md:390', 'project-docs\\MASTER-ARCHITECTURE.md:405', 'project-docs\\MASTER-ARCHITECTURE.md:406']
+owner message quote (رسالة المالك): count=1 sample=['project-docs\\MASTER-ARCHITECTURE.md:219']
+owner approval statement (المالك وافق): count=10 sample=['CLAUDE.md:35', 'project-docs\\analysis\\CONFLICTS-AND-GAPS.md:236', 'project-docs\\analysis\\DECISIONS-REQUIRED.md:1', 'project-docs\\handoffs\\NEXT-AGENT.md:21', 'project-docs\\handoffs\\NEXT-AGENT.md:26', 'project-docs\\standards\\AGENT-EXECUTION-RULES.md:18']
+owner approval date: count=0 sample=[]
+DECISIONS.md file existence: count=12 sample=['CLAUDE.md:35', 'project-docs\\MASTER-ARCHITECTURE.md:457', 'project-docs\\analysis\\ANALYSIS-REPORT.md:53', 'project-docs\\analysis\\DECISIONS-REQUIRED.md:4', 'project-docs\\analysis\\KINSHIP-MATHEMATICAL-REFERENCE.md:4', 'project-docs\\analysis\\REQUIREMENTS.md:145']
+
+== DR / CG IDENTIFIER INVENTORY ==
+DR ids seen=34 range=DR-01..DR-34
+CG ids seen=43 range=CG-01..CG-43
+
+== D-01..D-10 CONTEXT (search for any mention of 'contradiction' register) ==
+contradiction-word hits are listed by file in phase-a-traceability-output.txt only as counts:
+  CLAUDE.md contradiction-related terms=1
+  project-docs\MASTER-ARCHITECTURE.md contradiction-related terms=8
+  project-docs\analysis\ANALYSIS-REPORT.md contradiction-related terms=6
+  project-docs\analysis\CONFLICTS-AND-GAPS.md contradiction-related terms=11
+  project-docs\analysis\DECISION-REGISTER.md contradiction-related terms=9
+  project-docs\analysis\DECISIONS-REQUIRED.md contradiction-related terms=1
+  project-docs\analysis\REQUIREMENTS.md contradiction-related terms=3
+  project-docs\analysis\TRACEABILITY-MATRIX.md contradiction-related terms=2
+  project-docs\standards\DOCUMENTATION-STANDARDS.md contradiction-related terms=3

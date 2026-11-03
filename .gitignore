@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Backend build output
+backend/dist/
+
+# Flutter build output / caching
+mobile/build/
+mobile/.dart_tool/
+build/
+
+# Python (M0 harness / tooling)
+__pycache__/
+*.py[cod]
+
+# Dart tooling
+.dart_tool/
+
+# Environment / secrets
+.env
+.env.local
+*.pem
+
+# Test / coverage output
+coverage/
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Temporary diagnostic files created during P0 (disposable)
+_cleanup.py
+_run_validations.ps1
+_bz.ps1
+_bz_result.txt
+_cleanup_marker.txt
+__gitinit.cmd
+__gitinit_result.txt
+_shelltest.ps1
+_shelltest_result.txt
+__inventory.txt

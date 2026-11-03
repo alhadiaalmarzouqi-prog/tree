@@ -1,0 +1,2 @@
+﻿FILE=project-docs\reference-fixtures\kinship-reference-cases.json bytes=37807 LF_count=819 segments=820 BOM=False
+FILE=project-docs\analysis\TRACEABILITY-MATRIX.md bytes=17834 LF_count=183 segments=184 BOM=False
